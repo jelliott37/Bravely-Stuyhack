@@ -1,4 +1,4 @@
-public interface Entity{
+public class Entity{
     //handles the characters (player and enemy)
     private char sym; //the character's representation;
     private int health;
@@ -7,6 +7,6 @@ public interface Entity{
     private String[] attacks;
     private int atk;
     private int def;
-    public void attack(Entity e);
-    public int damCalc(Entity e); 
+    public void attack(Entity e){}
+    public int damCalc(Entity e){return 0;} 
 }

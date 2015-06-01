@@ -1,3 +1,3 @@
-public class Player implements Entity{
+public class Player extends Entity{
 
 }

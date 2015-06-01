@@ -2,13 +2,26 @@ public class World{
     //handles the 2d array that is the gamespace
     private char[][] map;
     private int sideLength;
-    public World(int n){ //precondition: n is odd
+    private Player pc;
+    private int level
+    public World(int n, Player pco, int lvl){ //precondition: n is odd
 	map = new char[n][n];
 	sideLength = n;
+	pc=pco;
+	level = lvl;
     }
     public void generate(){ //creates map
 	generateBorders();
-	
+	int ps = r.nextInt(20)-level;
+	if(ps < 0){
+	    generateBoss();
+	} else if(ps % 3 == 0){
+	    preset1();
+	} else if(ps % 3 == 1){
+
+	} else if(ps % 3 == 2){
+
+	}
     }
     public void generateBorders(){ //creates borders and fills with blankspace
 	for(int c = 0; c < sideLength; c++){
@@ -17,7 +30,7 @@ public class World{
 		    if(r != sideLength/2 - 1 && 
 		       r != sideLength/2 && 
 		       r != sideLength/2 + 1){
-			map[r][c] = '_';
+			map[r][c] = 'X';
 		    }
 		    else{
 			map[r][c] = ' ';
@@ -27,7 +40,7 @@ public class World{
 		    if(c != sideLength/2 - 1 && 
 		       c != sideLength/2 && 
 		       c != sideLength/2 + 1){
-			map[r][c] = '|';
+			map[r][c] = 'X';
 		    }
 		    else{
 			map[r][c] = ' ';
@@ -40,7 +53,14 @@ public class World{
 	}    
     }
     public void preset1(){
-	
+	for(int c = sideLength/2 - 3; c < sideLength/2 + 3; c++){
+	    for(int r =sideLength/2 - 3; r < sideLength/2 + 3; r++){
+		if( r == sideLength/2 || c == sideLength/2){
+		    map[r][c]='X';
+		}
+	    }
+	}
+
     }
     public void preset2(){
 

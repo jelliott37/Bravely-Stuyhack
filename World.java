@@ -1,30 +1,35 @@
-import java.util.Random;
+bgimport java.util.Random;
 public class World{
     //handles the 2d array that is the gamespace
     private char[][] map;
     private int sideLength;
     private Player pc;
+    private Monster[] mobs;
     private int level;
-    private Random r = new Random();
-    public World(int n, Player pco, int lvl){ //precondition: n is odd
+    private Random rand = new Random();
+    public World(int n, Player pci, int lvl){ //precondition: n is odd
 	map = new char[n][n];
 	sideLength = n;
-	pc=pco;
+	pc=pci;
 	level = lvl;
     }
     public void generate(){ //creates map
 	generateBorders();
-	int ps = r.nextInt(20)-level;
+	int ps = rand.nextInt(20)-level;
 	if (sideLength < 11){
 	    preset3();
+	    generateChests(sideLength) 
 	} else if(ps < 0){
 	    generateBoss();
-	} else if(ps % 3 == 0){
+	} else if(ps % 4 == 0){
 	    preset1();
-	} else if(ps % 3 == 1){
+	} else if(ps % 4 == 1){
 	    preset2();
-	} else if(ps % 3 == 2){
+	} else if(ps % 4 == 2){
 	    preset3();
+	}
+	if(ps >= 0){
+	    generateChests(sideLength/4);
 	}
 	
     }
@@ -103,11 +108,28 @@ public class World{
 	    }
 	}
     }
-    public void generateChests(){
-	
+    public void generateChests(int n){
+	int counter = n;
+	for (int r = 0; r < sideLength; r++){
+	    for (int c = 0; c < sideLength; c++){
+		if(map[r][c] != 'X'){
+		    if(counter >= rand.nextInt(sideLength)){
+			map[r][c]=='C';
+		    } 
+		}
+	    }
+	}
     }
     public void generateMobs(){
 	
+    }
+    public void move(Entity e, int x, int y){
+	if(map[x][y] == ' '){
+	    map[e.getXCor()][e.getYCor()] = ' ';
+	    e.setXCor(x);
+	    e.setYCor(y);
+	    map[x][y]=e.getSymbol();
+	}
     }
     public String toString()
     {
@@ -118,7 +140,7 @@ public class World{
 		    s = s + map[y][x];
 		s=s+"\n";
 	    }
-	return s;
+	return s+pc.toString();
     }
     public void wait(int n){
 	try{

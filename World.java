@@ -1,4 +1,4 @@
-bgimport java.util.Random;
+import java.util.Random;
 public class World{
     //handles the 2d array that is the gamespace
     private char[][] map;
@@ -13,12 +13,15 @@ public class World{
 	pc=pci;
 	level = lvl;
     }
+    public int getSL(){
+	return sideLength;
+    }
     public void generate(){ //creates map
 	generateBorders();
 	int ps = rand.nextInt(20)-level;
 	if (sideLength < 11){
 	    preset3();
-	    generateChests(sideLength) 
+	    generateChests(sideLength); 
 	} else if(ps < 0){
 	    generateBoss();
 	} else if(ps % 4 == 0){
@@ -114,7 +117,7 @@ public class World{
 	    for (int c = 0; c < sideLength; c++){
 		if(map[r][c] != 'X'){
 		    if(counter >= rand.nextInt(sideLength)){
-			map[r][c]=='C';
+			map[r][c] = 'C';
 		    } 
 		}
 	    }

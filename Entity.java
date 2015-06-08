@@ -33,6 +33,6 @@ public class Entity{
     public char getSymbol(){
 	return symbol;
     }
-    public String attack(Entity e){}
+    public String attack(Entity e){return "";}
     public int damCalc(Entity e){return 0;} 
 }

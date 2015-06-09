@@ -124,7 +124,15 @@ public class World{
 	}
     }
     public void generateMobs(){
-	
+	/* tmp
+	int spawncap = 3;
+	if((map[r][c] != 'X') && (map[r][c] != 'C')){
+	    while(spawncap > 0){
+		map[rand.nextInt(sideLength)][rand.nextInt(sideLength)] = 'M';
+		spawncap--;
+	    }
+	}
+	*/
     }
     public void move(Entity e, int x, int y){
 	if(map[x][y] == ' '){

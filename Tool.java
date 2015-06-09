@@ -13,5 +13,7 @@ public class Tool{
 	name = n;
 	attack = t;
     }
-    
+    public String toString(){
+	return name + " - " + dam + " damage";
+    }
 }

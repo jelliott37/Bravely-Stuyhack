@@ -17,6 +17,7 @@ public class Driver{
 	Tool t = null;
 	while(!complete){
 	    System.out.println("Would you say you are better at offense(O) or defense(D)?");
+	    
 	    char b = in.nextLine().charAt(0);
 	    if(b == 'O' || b == 'o' || b == '0'){
 		complete = true;
@@ -40,7 +41,7 @@ public class Driver{
 		d+=2;
 		h+=25;
 		m+=25;
-		t = new Tool(4, false, false, false, "Basic Axe", "swing at");
+		t = new Tool(4, false, false, false, "Basic Sword", "swing at");
 	    } else if (b == 'A' || b == 'a'){ 
 		complete = true;
 		a+=2;
@@ -60,11 +61,17 @@ public class Driver{
 	    }
 	}
 	System.out.println("Well then, " + n + ", I welcome you to this temple, a house of the gods. I beg of you, hero, bring things back to order."); 
-
+	in.nextLine();
 	Player p = new Player('@', h, m, n, a, d, 21, 10, t);
 	World w = new World(21,p,20);	
 	
 	w.generate();
-	System.out.println(w);
+	
+	while(p.getHealth() > 0){
+	    System.out.println(w + w.commands());
+	    w.wait(3);
+	}
+	System.out.println("Oh, hero! Your wounds are too grevious. I cannot maintain your health for much longer. Your death is nigh. Your eternal slumber must now begin...");
+	System.exit(0);
     }
 }

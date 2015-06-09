@@ -153,4 +153,12 @@ public class World{
 	}
 
     }
+    public String commands(){
+	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(u), Attack(space), Spells(s)\n Wait(i), Store Commands(o), Release Stored Time(p)";
+    }
+    public void commandHandle(char c){
+	if(c == 'w' || c == 'W'){
+	    
+	}
+    }
 }

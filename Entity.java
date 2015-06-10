@@ -43,16 +43,16 @@ public class Entity{
     public int getMaxMana(){
 	return maxMana;
     }
-    public int getXCor(){
+    public int getX(){
 	return xcor;
     }
-    public int getYCor(){
+    public int getY(){
 	return ycor;
     }
-    public void setXCor(int n){
+    public void setX(int n){
 	xcor = n;
     }
-    public void setYCor(int n){
+    public void setY(int n){
 	ycor = n;
     }
     public char getSymbol(){

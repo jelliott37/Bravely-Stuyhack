@@ -32,7 +32,7 @@ public class World{
 	    preset3();
 	}
 	if(ps >= 0){
-	    generateChests(sideLength/4);
+	    generateChests(sideLength/3);
 	}
 	
     }
@@ -113,15 +113,19 @@ public class World{
     }
     public void generateChests(int n){
 	int counter = n;
-	for (int r = 0; r < sideLength; r++){
-	    for (int c = 0; c < sideLength; c++){
+	for (int r = 1; r < sideLength - 1; r++){
+	    for (int c = 1; c < sideLength - 1; c++){
 		if(map[r][c] != 'X'){
-		    if(counter >= rand.nextInt(sideLength)){
+		    if(counter >= rand.nextInt((int)(Math.pow(sideLength,2)))){
 			map[r][c] = 'C';
+			counter --;
 		    } 
 		}
 	    }
 	}
+    }
+    public void summon(Entity e){
+	map[e.getX()][e.getY()] = e.getSymbol();
     }
     public void generateMobs(){
 	/* tmp
@@ -136,15 +140,16 @@ public class World{
     }
     public void move(Entity e, int x, int y){
 	if(map[x][y] == ' '){
-	    map[e.getXCor()][e.getYCor()] = ' ';
-	    e.setXCor(x);
-	    e.setYCor(y);
+	    map[e.getX()][e.getY()] = ' ';
+	    e.setX(x);
+	    e.setY(y);
 	    map[x][y]=e.getSymbol();
 	}
     }
     public String toString()
     {
 	String s = "\033\143";
+
 	for (int y=0; y<sideLength; y++)
 	    {
 		for (int x=0;x<sideLength;x++)
@@ -166,7 +171,21 @@ public class World{
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
-	    
+	    move(pc, pc.getX() - 1, pc.getY());
+	} else if (c == 'q' || c == 'Q'){
+	    move(pc, pc.getX() - 1, pc.getY() - 1);
+	} else if (c == 'a' || c == 'A'){
+	    move(pc, pc.getX(), pc.getY() - 1);
+	} else if (c == 'z' || c == 'Z'){
+	    move(pc, pc.getX() + 1, pc.getY() - 1);
+	} else if (c == 'x' || c == 'X'){
+	    move(pc, pc.getX() + 1, pc.getY());
+	} else if (c == 'c' || c == 'C'){
+	    move(pc, pc.getX() + 1, pc.getY() + 1);
+	} else if(c == 'd' || c == 'D'){
+	    move(pc, pc.getX(), pc.getY() + 1);
+	} else if (c == 'e' || c == 'E'){
+	     move(pc, pc.getX() - 1, pc.getY() + 1);
 	}
     }
 }

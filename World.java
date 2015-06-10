@@ -129,7 +129,7 @@ public class World{
 	    for (int c = 0; c < sideLength; c++){	
 		if((map[r][c] != 'X') && (map[r][c] != 'C')){
 		    while(spawncap > 0){
-			map[rand.nextInt(sideLength)][rand.nextInt(sideLength)] = 'M';
+			//	map[rand.nextInt(sideLength)][rand.nextInt(sideLength)] = 'M';
 			spawncap--;
 		    }
 		}

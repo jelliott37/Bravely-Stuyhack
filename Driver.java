@@ -75,6 +75,7 @@ public class Driver{
 	
 	w.generate();
 	w.summon(p);
+	w.generateMobs();
 	while(p.getHealth() > 0){
 	    System.out.println(w +"\n" + w.commands());
 	    try{

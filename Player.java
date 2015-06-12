@@ -10,6 +10,20 @@ public class Player extends Entity{
     public String toString(){
 	return this.getName() + ":\nHealth: " + this.getHealth() + "/" + this.getMaxHealth() + "\nMana: " + this.getMana() + "/" + this.getMaxMana() + "\nAttack: " + this.getAttack() + "\nDefense: " + this.getDefense() + "\nWeapon: " + weapon;
     }
-    
+    public void setWait(boolean in){
+	waiting = in;
+    }
+    public boolean getWait(){
+	return waiting;
+    }
+    public void inventoryHandler(){
+
+    }
+    public void cast(World w, char c){
+
+    } 
+    public void attack(World w, char c){
+
+    }
     
 }

@@ -75,7 +75,6 @@ public class Driver{
 	
 	w.generate();
 	w.summon(p);
-	w.generateMobs();
 	while(p.getHealth() > 0){
 	    System.out.println(w +"\n" + w.commands());
 	    try{
@@ -86,6 +85,7 @@ public class Driver{
 	    }
 	    if(w.getLevel() > 20){
 		System.out.println("Thank you, " + n + ". Your name will go down in history with the heroes of the ages. Now go, explore the world. Lend your skills to others also in need.");
+		System.exit(0);
 	    }
 	}
 	System.out.println("Oh, hero! Your wounds are too grevious. I cannot maintain your health for much longer. Your death is nigh. Your eternal slumber must now begin...");

@@ -1,6 +1,8 @@
 import java.util.Random;
+import java.util.Scanner;
 public class World{
     //handles the 2d array that is the gamespace
+    private Scanner input = new Scanner(System.in);
     private char[][] map;
     private int sideLength;
     private Player pc;
@@ -162,7 +164,7 @@ public class World{
 		    s = s + map[y][x];
 		s=s+"\n";
 	    }
-	return s+pc.toString();
+	return s+ "Level = " + level + "\n" + pc.toString();
     }
     public void wait(int n){
 	try{
@@ -173,7 +175,7 @@ public class World{
 
     }
     public String commands(){
-	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(u), Attack(space), Spells(s)\n Wait(i), Store Commands(o), Release Stored Time(p)";
+	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(u), Attack(space), Spells(s)\nStore Command(o), Release Stored Time(p)";
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
@@ -208,15 +210,83 @@ public class World{
 		move(pc, pc.getX(), pc.getY() - 1);		
 	    }
 	} else if (c == 'z' || c == 'Z'){
-	    move(pc, pc.getX() + 1, pc.getY() - 1);
+	    if(pc.getY() == 0){
+		level++;
+		generate();
+		move(pc, pc.getX(), sideLength -1);
+	    } else if(pc.getX() == sideLength - 1){
+		level++;
+		generate();	
+		move(pc, 0, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() + 1, pc.getY() - 1);
+	    }
 	} else if (c == 'x' || c == 'X'){
-	    move(pc, pc.getX() + 1, pc.getY());
+	    if(pc.getX() == sideLength - 1){
+		level++;
+		generate();	
+		move(pc, 0, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() + 1, pc.getY());
+	    }
 	} else if (c == 'c' || c == 'C'){
-	    move(pc, pc.getX() + 1, pc.getY() + 1);
+	    if(pc.getY() == sideLength - 1){
+		level++;
+		generate();
+		move(pc, pc.getX(), 0);
+	    } else if(pc.getX() == sideLength - 1){
+		level++;
+		generate();	
+		move(pc, 0, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() + 1, pc.getY() + 1);
+	    }
 	} else if(c == 'd' || c == 'D'){
-	    move(pc, pc.getX(), pc.getY() + 1);
+	    if(pc.getY() == sideLength - 1){
+		level++;
+		generate();
+		move(pc, pc.getX(), 0);
+	    } else {
+		move(pc, pc.getX(), pc.getY() + 1);
+	    }
 	} else if (c == 'e' || c == 'E'){
-	     move(pc, pc.getX() - 1, pc.getY() + 1);
+	    if(pc.getY() == sideLength - 1){
+		level++;
+		generate();
+		move(pc, pc.getX(), 0);
+	    } else if(pc.getX() == 0){
+		level++;
+		generate();	
+		move(pc, sideLength - 1, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() - 1, pc.getY() + 1);
+	    }
+		    
+	} else if (c == 'u' || c == 'U'){
+	    pc.inventoryHandler();
+	} else if (c == ' '){
+	    System.out.println("Please state a direction, using the key provided by Movement above.");
+	    try{
+		pc.attack(this, input.nextLine().charAt(0));
+	    } catch (StringIndexOutOfBoundsException e){
+		pc.attack(this, 'w');
+	    }
+	} else if (c == 's' || c == 'S'){
+	    pc.listSpells();
+	    try{
+		pc.cast(this, input.nextLine().charAt(0));
+	    } catch (StringIndexOutOfBoundsException e){
+		pc.cast(this, 'h');
+	    }
+	} else if (c == 'i' || c == 'i'){
+	    pc.setWait(true);
+	} else if (c == 'p' || c == 'P'){
+	    
 	}
+	
     }
 }

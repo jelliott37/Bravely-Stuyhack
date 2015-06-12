@@ -131,16 +131,16 @@ public class World{
 	map[e.getX()][e.getY()] = e.getSymbol();
     }
     public void generateMobs(){
-	int spawncap = sideLength / 4;
-	for (int r = sideLength; r > 0; r--){
-	    for (int c = sideLength; c > 0; c--){	
-		if((map[r][c] != 'X') && (map[r][c] != 'C')){
-		    if(rand.nextInt((int)(Math.pow(sideLength, 2))) <= spawncap){
-			//	map[rand.nextInt(sideLength)][rand.nextInt(sideLength)] = 'M';
-			spawncap--;
-		    }
-		}
+	int spawncap = 3;
+	String[] SlimeAtt = {"Pound", "Slap"};//temporary location
+	while(spawncap != 0){
+	    int r = rand.nextInt(sideLength);
+	    int c = rand.nextInt(sideLength);
+	    if((map[r][c] != 'X') && (map[r][c] != 'C')){
+		Monster m = new Monster('M', 10, 0, "Slime", 1, 0, r, c, SlimeAtt);
+		summon(m);
 	    }
+	    spawncap--;
 	}
     }
     public void move(Entity e, int x, int y){

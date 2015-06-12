@@ -83,6 +83,9 @@ public class Driver{
 		System.out.println("Please, enter a command when prompted. Press \"Enter\" now to try again.");
 		in.nextLine();
 	    }
+	    if(w.getLevel() > 20){
+		System.out.println("Thank you, " + n + ". Your name will go down in history with the heroes of the ages. Now go, explore the world. Lend your skills to others also in need.");
+	    }
 	}
 	System.out.println("Oh, hero! Your wounds are too grevious. I cannot maintain your health for much longer. Your death is nigh. Your eternal slumber must now begin...");
 	System.exit(0);

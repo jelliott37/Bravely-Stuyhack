@@ -13,6 +13,9 @@ public class World{
 	pc=pci;
 	level = lvl;
     }
+    public int getLevel(){
+	return level;
+    }
     public int getSL(){
 	return sideLength;
     }
@@ -128,11 +131,11 @@ public class World{
 	map[e.getX()][e.getY()] = e.getSymbol();
     }
     public void generateMobs(){
-	int spawncap = 3;
-	for (int r = 0; r < sideLength; r++){
-	    for (int c = 0; c < sideLength; c++){	
+	int spawncap = sideLength / 4;
+	for (int r = sideLength; r > 0; r--){
+	    for (int c = sideLength; c > 0; c--){	
 		if((map[r][c] != 'X') && (map[r][c] != 'C')){
-		    while(spawncap > 0){
+		    if(rand.nextInt((int)(Math.pow(sideLength, 2))) <= spawncap){
 			//	map[rand.nextInt(sideLength)][rand.nextInt(sideLength)] = 'M';
 			spawncap--;
 		    }
@@ -147,6 +150,7 @@ public class World{
 	    e.setY(y);
 	    map[x][y]=e.getSymbol();
 	}
+	
     }
     public String toString()
     {
@@ -173,11 +177,36 @@ public class World{
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
-	    move(pc, pc.getX() - 1, pc.getY());
+	    if(pc.getX() == 0){
+		level++;
+		generate();	
+		move(pc, sideLength - 1, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() - 1, pc.getY());	
+	    }
 	} else if (c == 'q' || c == 'Q'){
-	    move(pc, pc.getX() - 1, pc.getY() - 1);
+	    if(pc.getY() == 0){
+		level++;
+		generate();
+		move(pc, pc.getX(), sideLength -1);
+	    } else if(pc.getX() == 0){
+		level++;
+		generate();	
+		move(pc, sideLength - 1, pc.getY());
+	    }
+	    else {
+		move(pc, pc.getX() - 1, pc.getY() - 1);		
+	    }
 	} else if (c == 'a' || c == 'A'){
-	    move(pc, pc.getX(), pc.getY() - 1);
+	    if(pc.getY() == 0){
+		level++;
+		generate();
+		move(pc, pc.getX(), sideLength -1);
+	    }
+	    else {
+		move(pc, pc.getX(), pc.getY() - 1);		
+	    }
 	} else if (c == 'z' || c == 'Z'){
 	    move(pc, pc.getX() + 1, pc.getY() - 1);
 	} else if (c == 'x' || c == 'X'){

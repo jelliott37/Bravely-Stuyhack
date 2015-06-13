@@ -28,20 +28,38 @@ public class Entity{
     public int getAttack(){
 	return atk;
     }
+    public void setAttack(int a){
+	atk = a;
+    }
     public int getDefense(){
 	return def;
+    }
+    public void setDefense(int d){
+	def = d;
     }
     public int getHealth(){
 	return health;
     }
+    public void setHealth(int h){
+	health =  h;
+    }
     public int getMaxHealth(){
 	return maxHealth;
+    }
+    public void setMaxHealth(int mh){
+	maxHealth = mh;
     }
     public int getMana(){
 	return mana;
     }
+    public void setMana(int m){
+	mana = m;
+    }
     public int getMaxMana(){
 	return maxMana;
+    }
+    public void setMaxMana(int mm){
+	maxMana = mm;
     }
     public int getX(){
 	return xcor;

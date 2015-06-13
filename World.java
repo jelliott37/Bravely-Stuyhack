@@ -154,6 +154,15 @@ public class World{
 	}
 	
     }
+    public void clocal(Spell s){
+
+    }
+    public void clong(Spell s){
+
+    }
+    public void ccomplete(Spell s){
+
+    }
     public String toString()
     {
 	String s = "\033\143";
@@ -175,7 +184,7 @@ public class World{
 
     }
     public String commands(){
-	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(u), Attack(space), Spells(s)\nStore Command(o), Release Stored Time(p)";
+	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(i), Attack(space), Spells(s)\nStore Command(o), Release Stored Time(p)";
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
@@ -264,9 +273,8 @@ public class World{
 	    }
 	    else {
 		move(pc, pc.getX() - 1, pc.getY() + 1);
-	    }
-		    
-	} else if (c == 'u' || c == 'U'){
+	    }		    
+	} else if (c == 'I' || c == 'I'){
 	    pc.inventoryHandler();
 	} else if (c == ' '){
 	    System.out.println("Please state a direction, using the key provided by Movement above.");
@@ -282,10 +290,10 @@ public class World{
 	    } catch (StringIndexOutOfBoundsException e){
 		pc.cast(this, 'h');
 	    }
-	} else if (c == 'i' || c == 'i'){
-	    pc.setWait(true);
+	} else if (c == 'o' || c == 'O'){
+	    pc.storeMoves();
 	} else if (c == 'p' || c == 'P'){
-	    
+	    pc.releaseStoredMoves();
 	}
 	
     }

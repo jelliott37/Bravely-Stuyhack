@@ -35,5 +35,7 @@ public class Monster extends Entity{
 	    //attack player
 	}
 
-	public void
+	public void attack(World w, char c){
+	    
+	}
 }

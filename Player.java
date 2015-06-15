@@ -55,18 +55,16 @@ public class Player extends Entity{
 	    }   
 	    storedActions.add(c);
 	} else if (c == 'i'){
-	    System.out.println("Which item do you want to use?");
-	    try{
-		c = in.nextLine().charAt(0);
-	    }
-	    catch (StringIndexOutOfBoundsException e){
-		c = '0';
-	    }   
-	    storedActions.add(c);
+	    System.out.println("You can't preemptively access your inventory, sorry.");
+	    
 	}
     }
     public void releaseStoredMoves(){
-	
+	for(char c : storedActions){
+	    if(c == 's' || c == 'S'){
+		
+	    }
+	}
     }
     public void inventoryHandler(){
 

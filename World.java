@@ -147,24 +147,27 @@ public class World{
 	    if((map[r][c] != 'X') && (map[r][c] != 'C')){
 		Monster m = new Monster('?',1000*level,1000*level,"MissingNo",100*level,1000*level, r, c);
 		if(level % 3 == 0){
-		     m = new Monster('S', 15 * level, 0, "Shambling Skeleton", level, level / 2, r, c);
+		     m = new Monster('S', 15 * level, 0, "Shambling Skeleton", level * 2, level, r, c);
 		} else if(level % 3 == 1){
-		    m  = new Monster('D', 15 * level, 0, "Minor Demon", level * 3 / 2, 0, r, c);
+		    m  = new Monster('D', 15 * level, 0, "Minor Demon", level * 3, 0, r, c);
 		} else if(level % 3 == 2){
-		    m = new Monster('P', 15 * level, 0, "Corrupted Priest", level /2, level, r, c);
+		    m = new Monster('P', 15 * level, 0, "Corrupted Priest", level, level * 2, r, c);
 		}
 		summon(m);
+		mobs[level*3/2-spawncap]=m;
 	    }
 	    spawncap--;
 	}
     }
     public void move(Entity e, int x, int y){
-	if(map[x][y] == ' '){
-	    map[e.getX()][e.getY()] = ' ';
-	    e.setX(x);
-	    e.setY(y);
-	    map[x][y]=e.getSymbol();
-	}
+	if(x >= 0 && x < sideLength && y >= 0 && y < sideLength){
+	    if(map[x][y] == ' '){
+		map[e.getX()][e.getY()] = ' ';
+		e.setX(x);
+		e.setY(y);
+		map[x][y]=e.getSymbol();
+	    }
+	} 
 	
     }
     public void clocal(Spell s){
@@ -220,7 +223,14 @@ public class World{
 	int atk = e1.getAttack();
 	int def = e2.getDefense();
 	int dam = atk - def/2;
+	if(dam < 1){
+	    dam = 1;
+	}
 	status += e1.getName() + " dealt " + dam + " damage to " + e2.getName() + ".\n";
+	e2.setHealth(e2.getHealth() - dam);
+	if(e2.getHealth() < 0){
+	    System.out.println(e2 + " has died");
+	}
     }
     public void attackDirection(char c){
 	int xcor = pc.getX();
@@ -291,6 +301,7 @@ public class World{
 	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(i), Attack(space), Spells(s)\nStore Command(o), Release Stored Commands(p)";
     }
     public void commandHandle(char c){
+	status = "";
 	if(c == 'w' || c == 'W'){
 	    if(pc.getX() == 0){ if(level != 20){
 		level++;
@@ -412,8 +423,18 @@ public class World{
 	}
 	for(Monster m : mobs){
 	    if (m != null){
-		m.trackPlayer(pc, this);
+		if(m.getHealth() < 0){
+		       map[m.getX()][m.getY()]=' ';
+		       m = null;
+		}
+	        else {
+		    m.trackPlayer(pc, this);
+		}
 	    }
+	   
+	}
+	if(pc.getMaxHealth() < pc.getHealth()){
+	    pc.setHealth(pc.getMaxHealth());
 	}
 	
     }

@@ -21,7 +21,7 @@ public class Monster extends Entity{
 	    if (dir == 5){w.move(this, this.getX(), this.getY()+1);}
 	    if (dir == 6){w.move(this, this.getX()-1, this.getY()+1);}
 	    if (dir == 7){w.move(this, this.getX()-1, this.getY());}
-	} else if(Math.abs(mcx-pcx)!=1 || Math.abs(mcy-pcy)!=1){
+	} else if(Math.abs(mcx-pcx)>1 || Math.abs(mcy-pcy)>1){
 	    System.out.println("asdf");
 	    if (mcx>pcx && mcy>pcy){w.move(this, this.getX()-1, this.getY()-1);}
 	    if (mcx>pcx && mcy==pcy){w.move(this, this.getX()-1, this.getY());}
@@ -35,7 +35,6 @@ public class Monster extends Entity{
 	    System.out.println("jkl;");
 	    w.damcalc(this, pc);
 	}
-	System.out.println("gh");
 	w.wait(100);
     }
 

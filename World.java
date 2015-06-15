@@ -157,7 +157,7 @@ public class World{
 	    if((map[r][c] != 'X') && (map[r][c] != 'C')){
 		Monster m = new Monster('?',1000*level,1000*level,"MissingNo",100*level,1000*level, r, c);
 		if(level % 3 == 0){
-		     m = new Monster('S', 15 * level, 0, "Shambling Skeleton", level * 2, level, r, c);
+		    m = new Monster('S', 15 * level, 0, "Shambling Skeleton", level * 2, level, r, c);
 		} else if(level % 3 == 1){
 		    m  = new Monster('D', 15 * level, 0, "Minor Demon", level * 3, 0, r, c);
 		} else if(level % 3 == 2){
@@ -217,6 +217,41 @@ public class World{
 		status += "A light shines out of the chest, imbuing your weapon with special power.";
 		pc.getWeapon().makeHoly();
 	    }
+	} else {
+	    if(r<92){
+		if(pc.getSpells()[0].getDamage() < 30){
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Ice Strike";
+		    pc.setSpells(0,new Spell("Ice Strike", 75, 'i', 20));
+		} else 	if(pc.getSpells()[0].getDamage() < 100){
+		    status += "You remove a scroll from the chest. On it are written the teachings of a new spell technique, Life Drain";
+		    pc.setSpells(0,new Spell("Life Drain", 200, 'd', 50));
+		} else {
+		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		}
+	    } else if(r<94){
+		if(pc.getSpells()[1].getDamage() < 20){
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Beam Blast";
+		    pc.setSpells(1,new Spell("Beam Blast", 35, 'b', 90));	
+		} else if(pc.getSpells()[1].getDamage() < 50){
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Thunder Bolt";
+		    pc.setSpells(1,new Spell("Thunder Bolt", 150, 'b', 100));
+		} else {
+		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		}
+	    } else if(r<96){
+		if(pc.getSpells()[2].getDamage() < 10){
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Earthquake";
+		    pc.setSpells(1,new Spell("Earthquake", 20, 'e', 90));	
+		} else if(pc.getSpells()[1].getDamage() < 50){
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Holy Nova";
+		    pc.setSpells(1,new Spell("Holy Nova", 200, 'n', 100));
+		} else {
+		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		}
+	    } else{
+		status += "Magical energy floats around the chest, but nothing sits inside.";
+	    }
+	    
 	}
     }
     public void move(Entity e, int x, int y){
@@ -373,22 +408,22 @@ public class World{
 	status = "";
 	if(c == 'w' || c == 'W'){
 	    if(pc.getX() == 0){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, sideLength - 1, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, sideLength - 1, pc.getY());}
 	    }  
 	    else {
 		move(pc, pc.getX() - 1, pc.getY());	
 	    }
 	} else if (c == 'q' || c == 'Q'){
 	    if(pc.getY() == 0){ if(level != 20){
-		level++;
-		generate();
-		move(pc, pc.getX(), sideLength -1);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), sideLength -1);}
 	    } else if(pc.getX() == 0){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, sideLength - 1, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, sideLength - 1, pc.getY());}
 	    }  
 
 	    else {
@@ -396,9 +431,9 @@ public class World{
 	    }
 	} else if (c == 'a' || c == 'A'){
 	    if(pc.getY() == 0){ if(level != 20){
-		level++;
-		generate();
-		move(pc, pc.getX(), sideLength -1);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), sideLength -1);}
 	    }  
 
 	    else {
@@ -406,56 +441,56 @@ public class World{
 	    }
 	} else if (c == 'z' || c == 'Z'){
 	    if(pc.getY() == 0){ if(level != 20){
-		level++;
-		generate();
-		move(pc, pc.getX(), sideLength -1);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), sideLength -1);}
 	    } else if(pc.getX() == sideLength - 1){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, 0, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, 0, pc.getY());}
 	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY() - 1);
 	    }
 	} else if (c == 'x' || c == 'X'){
 	    if(pc.getX() == sideLength - 1){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, 0, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, 0, pc.getY());}
 	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY());
 	    }
 	} else if (c == 'c' || c == 'C'){
 	    if(pc.getY() == sideLength - 1){ if(level != 20){
-		level++;
-		generate();
-		move(pc, pc.getX(), 0);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), 0);}
 	    } else if(pc.getX() == sideLength - 1){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, 0, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, 0, pc.getY());}
 	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY() + 1);
 	    }
 	} else if(c == 'd' || c == 'D'){
 	    if(pc.getY() == sideLength - 1 ){ if(level != 20){ 
-		level++;
-		generate();
-		move(pc, pc.getX(), 0);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), 0);}
 	    }  else {
 		move(pc, pc.getX(), pc.getY() + 1);
 	    }
 	} else if (c == 'e' || c == 'E'){
 	    if(pc.getY() == sideLength - 1){ if(level != 20){
-		level++;
-		generate();
-		move(pc, pc.getX(), 0);}
+		    level++;
+		    generate();
+		    move(pc, pc.getX(), 0);}
 	    } else if(pc.getX() == 0){ if(level != 20){
-		level++;
-		generate();	
-		move(pc, sideLength - 1, pc.getY());}
+		    level++;
+		    generate();	
+		    move(pc, sideLength - 1, pc.getY());}
 	    }
 
 	    else {
@@ -493,8 +528,8 @@ public class World{
 	for(Monster m : mobs){
 	    if (m != null){
 		if(m.getHealth() < 0){
-		       map[m.getX()][m.getY()]=' ';
-		       m = null;
+		    map[m.getX()][m.getY()]=' ';
+		    m = null;
 		}
 	        else {
 		    m.trackPlayer(pc, this);

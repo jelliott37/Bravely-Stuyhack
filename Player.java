@@ -22,6 +22,12 @@ public class Player extends Entity{
     public void setWeapon(Tool w){
 	weapon = w;
     }
+    public Spell[] getSpells(){
+	return spells;
+    }
+    public void setSpells(int i, Spell s){
+	spells[i]=s;
+    }
     public String toString(){
 	return this.getName() + ":\nHealth: " + this.getHealth() + "/" + this.getMaxHealth() + "\nMana: " + this.getMana() + "/" + this.getMaxMana() + "\nAttack: " + this.getAttack() + "\nDefense: " + this.getDefense() + "\nWeapon: " + weapon;
     }

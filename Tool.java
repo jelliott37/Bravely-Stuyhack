@@ -9,6 +9,11 @@ public class Tool{
 	name = n;
 	attack = t;
     }
+    public Tool (int d, boolean h, String n){
+	dam = d;
+	holy = h;
+	name = n;
+    }
     public boolean getHoly(){
 	return holy;
     }		

@@ -46,21 +46,21 @@ public class Driver{
 		    d+=2;
 		    h+=25;
 		    m+=25;
-		    t = new Tool(4, false, false, false, "Basic Sword", "swing at");
+		    t = new Tool(4,  false, "Basic Sword", "swing at");
 		} else if (b == 'A' || b == 'a'){ 
 		    complete = true;
 		    a+=2;
 		    d+=4;
 		    h+=50;
 		    m-=50;
-		    t = new Tool(5, false, false, false, "Basic Axe", "decapitate");
+		    t = new Tool(5,  false, "Basic Axe", "decapitate");
 		} else if (b == 'T' || b == 't'){
 		    complete = true;
 		    a+=1;
 		    d+=3;
 		    m+=50;
 		    h+=50;
-		    t = new Tool(3, false, false, false, "Basic Staff", "whack"); 
+		    t = new Tool(3, false, "Basic Staff", "whack"); 
 		} else {
 		    System.out.println(n + ", please follow the instructions as they were given.");
 		}

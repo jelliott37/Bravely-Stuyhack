@@ -1,15 +1,11 @@
 public class Tool{
     private int dam;
-    private boolean armour;
-    private boolean demon;
-    private boolean undead;
+    private boolean holy;
     private String name;
     private String attack;
-    public Tool (int d, boolean a, boolean e, boolean u, String n, String t){
+    public Tool (int d, boolean h, String n, String t){
 	dam = d;
-	armour = a;
-	demon = e;
-	undead = u;
+	holy = h;
 	name = n;
 	attack = t;
     }

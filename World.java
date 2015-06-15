@@ -9,6 +9,7 @@ public class World{
     private Monster[] mobs;
     private int level;
     private Random rand = new Random();
+    private String status = "";
     public World(int n, Player pci, int lvl){ //precondition: n is odd
 	map = new char[n][n];
 	sideLength = n;
@@ -155,13 +156,59 @@ public class World{
 	
     }
     public void clocal(Spell s){
-
+	for(int i = 0; i < mobs.length; i++){
+	    Monster m = mobs[i];
+	    if(Math.abs(m.getX() - pc.getX()) <= 1 && Math.abs(m.getY() - pc.getY()) <= 1){
+		int dam = s.getDamage();
+		if(m.getHealth() < dam){
+		    map[m.getX()][m.getY()] = ' ';
+		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		}
+		else {
+		    m.setHealth(m.getHealth() - dam);
+		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+		}
+	    }
+	}
     }
     public void clong(Spell s){
-
+	for(int i = 0; i < mobs.length; i++){
+	    Monster m = mobs[i];
+	    if(Math.abs(m.getX() - m.getY()) == Math.abs(pc.getX() - pc.getY())){
+		int dam = s.getDamage();
+		if(m.getHealth() < dam){
+		    map[m.getX()][m.getY()] = ' ';
+		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		}
+		else {
+		    m.setHealth(m.getHealth() - dam);
+		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+		}
+	    }
+	}
     }
     public void ccomplete(Spell s){
-
+	for(int i = 0; i < mobs.length; i++){
+	    Monster m = mobs[i];
+	    if(rand.nextInt(3) < 2){
+		int dam = s.getDamage();
+		if(m.getHealth() < dam){
+		    map[m.getX()][m.getY()] = ' ';
+		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		}
+		else {
+		    m.setHealth(m.getHealth() - dam);
+		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+		    
+		}
+	    }
+	}
+    }
+    public void damcalc(Entity e1, Entity e2){
+	int atk = e1.getAttack();
+	int def = e2.getDefense();
+	int dam = atk - def/2;
+	status += e1.getName() + " dealt " + dam + " damage to " + e2.getName() + ".\n";
     }
     public String toString()
     {
@@ -173,7 +220,7 @@ public class World{
 		    s = s + map[y][x];
 		s=s+"\n";
 	    }
-	return s+ "Level = " + level + "\n" + pc.toString();
+	return s+ "Level = " + level + "\n" + status + pc.toString();
     }
     public void wait(int n){
 	try{

@@ -1,11 +1,13 @@
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 public class Player extends Entity{
     private Tool weapon;
     private boolean waiting = false;
     private LinkedList<Character> storedActions = new LinkedList<Character>();
     private Spell[] spells = new Spell[4];
     private Random rand = new Random();
+    private Scanner in = new Scanner(System.in);
     public Player(char c, int h, int m, String n, int a, int d, int x, int y, Tool w){
 	super(c, h, m, n, a, d, x, y);
 	weapon = w;
@@ -20,7 +22,45 @@ public class Player extends Entity{
 	return waiting;
     }
     public void storeMoves(){
-
+	System.out.println("What action do you want to store?");
+	char c = '.';
+	try{
+	    c = in.nextLine().charAt(0);
+	}
+	catch (StringIndexOutOfBoundsException e){
+	    System.out.println("Invalid entry. Action Storage Terminated.");
+	}
+	storedActions.add(c);
+	if(c == 's' || c == 'S'){
+	    System.out.println("What spell do you want to store?\n");
+	    listSpells();
+	    try{
+		c = in.nextLine().charAt(0);
+	    }
+	    catch (StringIndexOutOfBoundsException e){
+		c = spells[0].getSymbol();
+	    }   
+	    storedActions.add(c);
+	} else if (c == ' '){
+	    System.out.println("Which direction do you want to attack in?");
+	    try{
+		c = in.nextLine().charAt(0);
+	    }
+	    catch (StringIndexOutOfBoundsException e){
+		c = 'w';
+	    }   
+	    storedActions.add(c);
+	} else if (c == 'i'){
+	    System.out.println("Which item do you want to use?");
+	    try{
+		c = in.nextLine().charAt(0);
+	    }
+	    catch (StringIndexOutOfBoundsException e){
+		c = '0';
+	    }   
+	    storedActions.add(c);
+	}
+	
     }
     public void releaseStoredMoves(){
 

@@ -1,9 +1,10 @@
 # Bravely-Stuyhack
-Bye Jesse Elliott And Edward Fan
+By Jesse Elliott And Edward Fan
 To Play:
 Terminal -> git clone -> javac Driver.java -> java Driver
 
 ChangeLog:
+
 May 22 - Created, Basic Entity Params [Jesse Elliott]
 
 May 28 - generated very basic world map [Jesse Elliott]

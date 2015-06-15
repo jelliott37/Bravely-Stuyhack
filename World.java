@@ -6,7 +6,7 @@ public class World{
     private char[][] map;
     private int sideLength;
     private Player pc;
-    private Monster[] mobs;
+    private Monster[] mobs = new Monster[0];
     private int level;
     private Random rand = new Random();
     private String status = "";

@@ -9,7 +9,18 @@ public class Tool{
 	name = n;
 	attack = t;
     }
+    public boolean getHoly(){
+	return holy;
+    }						
+    public int getDam(){
+	return dam;
+    }
+
     public String toString(){
-	return name + " - " + dam + " damage";
+	if(!holy){
+	    return name + " - " + dam + " damage";
+	} else {
+	    return name + " - " + dam + " holy damage";
+	}
     }
 }

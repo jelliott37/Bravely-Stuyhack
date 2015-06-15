@@ -5,12 +5,16 @@ public class Player extends Entity{
     private Tool weapon;
     private boolean waiting = false;
     private LinkedList<Character> storedActions = new LinkedList<Character>();
-    private Spell[] spells = new Spell[4];
+    private Spell[] spells = new Spell[3];
     private Random rand = new Random();
     private Scanner in = new Scanner(System.in);
+    private int[] inventory = new int[4];
     public Player(char c, int h, int m, String n, int a, int d, int x, int y, Tool w){
 	super(c, h, m, n, a, d, x, y);
 	weapon = w;
+	spells[0] = new Spell("Flame Burst", 25, 'f', 10);
+	spells[1] = new Spell("Basic Beam", 10, 'b', 25);
+	spells[2] = new Spell("Energy Burst", 5, 'e', 50);
     }
     public String toString(){
 	return this.getName() + ":\nHealth: " + this.getHealth() + "/" + this.getMaxHealth() + "\nMana: " + this.getMana() + "/" + this.getMaxMana() + "\nAttack: " + this.getAttack() + "\nDefense: " + this.getDefense() + "\nWeapon: " + weapon;
@@ -60,10 +64,9 @@ public class Player extends Entity{
 	    }   
 	    storedActions.add(c);
 	}
-	
     }
     public void releaseStoredMoves(){
-
+	
     }
     public void inventoryHandler(){
 
@@ -71,9 +74,9 @@ public class Player extends Entity{
     public void listSpells(){
 	String ret = "";
 	for (Spell s: spells){
-	    ret += s.getName() + " (" + s.getSymbol() + "),";
+	    ret += s.getName() + " (" + s.getSymbol() + "), ";
 	}
-	System.out.println("Heal (h), " + ret.substring(ret.length() - 1));
+	System.out.println("Heal (h), " + ret.substring(0, ret.length() - 2));
     }
     public void cast(World w, char c){
 	if(c == 'h' || c == 'H'){
@@ -96,8 +99,16 @@ public class Player extends Entity{
 	    System.out.println("Your spell fizzled and died. You lost " + ph + " mana");
 	}
     } 
-    public void attack(World w, char c){
-
+    public void attack(World w, Entity e){
+	int attack = this.getAttack();
+	int ph = attack;
+	attack += weapon.getDam();
+	if(weapon.getHoly()){
+	    attack *= 2;
+	}
+	this.setAttack(attack);
+	w.damcalc(this, e);
+	this.setAttack(ph);
     }
     
 }

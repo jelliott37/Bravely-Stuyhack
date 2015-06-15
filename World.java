@@ -6,7 +6,7 @@ public class World{
     private char[][] map;
     private int sideLength;
     private Player pc;
-    private Monster[] mobs;
+    private Monster[] mobs = new Monster[0];
     private int level;
     private Random rand = new Random();
     private String status = "";
@@ -210,10 +210,53 @@ public class World{
 	int dam = atk - def/2;
 	status += e1.getName() + " dealt " + dam + " damage to " + e2.getName() + ".\n";
     }
+    public void attackDirection(char c){
+	int xcor = pc.getX();
+	int ycor = pc.getY();
+	switch (c){
+	case 'q': 
+	    xcor--;
+	    ycor--;
+	    break;
+	case 'w': 
+	    xcor--;
+	    break;
+	case 'e':
+	    xcor--;
+	    ycor++;
+	    break;
+	case 'd':
+	    ycor++;
+	    break;
+	case 'c':
+	    ycor++;
+	    xcor++;
+	    break;
+	case 'x':
+	    xcor++;
+	    break;
+	case 'z':
+	    xcor++;
+	    ycor--;
+	    break;
+	case 'a':
+	    ycor--;
+	    break;
+	}
+	for(int i = 0; i < mobs.length;i++){
+	    Monster m = mobs[i];
+	    if( m.getX() == xcor){
+		if(m.getY() == ycor){
+		    pc.attack(this,m);
+		}
+	    }
+	}
+    }
+    
     public String toString()
     {
 	String s = "\033\143";
-
+	
 	for (int y=0; y<sideLength; y++)
 	    {
 		for (int x=0;x<sideLength;x++)
@@ -231,11 +274,11 @@ public class World{
 
     }
     public String commands(){
-	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(i), Attack(space), Spells(s)\nStore Command(o), Release Stored Time(p)";
+	return "Commands: \nMovement: N(w), NW(q), W(a), SW(z), S(x), SE(c), E(d), NE(e) \nInventory(i), Attack(space), Spells(s)\nStore Command(o), Release Stored Commands(p)";
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
-	    if(pc.getX() == 0){
+	    if(pc.getX() == 0&& level != 20){
 		level++;
 		generate();	
 		move(pc, sideLength - 1, pc.getY());
@@ -244,11 +287,11 @@ public class World{
 		move(pc, pc.getX() - 1, pc.getY());	
 	    }
 	} else if (c == 'q' || c == 'Q'){
-	    if(pc.getY() == 0){
+	    if(pc.getY() == 0&& level != 20){
 		level++;
 		generate();
 		move(pc, pc.getX(), sideLength -1);
-	    } else if(pc.getX() == 0){
+	    } else if(pc.getX() == 0&& level != 20){
 		level++;
 		generate();	
 		move(pc, sideLength - 1, pc.getY());
@@ -257,7 +300,7 @@ public class World{
 		move(pc, pc.getX() - 1, pc.getY() - 1);		
 	    }
 	} else if (c == 'a' || c == 'A'){
-	    if(pc.getY() == 0){
+	    if(pc.getY() == 0&& level != 20){
 		level++;
 		generate();
 		move(pc, pc.getX(), sideLength -1);
@@ -266,11 +309,11 @@ public class World{
 		move(pc, pc.getX(), pc.getY() - 1);		
 	    }
 	} else if (c == 'z' || c == 'Z'){
-	    if(pc.getY() == 0){
+	    if(pc.getY() == 0&& level != 20){
 		level++;
 		generate();
 		move(pc, pc.getX(), sideLength -1);
-	    } else if(pc.getX() == sideLength - 1){
+	    } else if(pc.getX() == sideLength - 1&& level != 20){
 		level++;
 		generate();	
 		move(pc, 0, pc.getY());
@@ -279,7 +322,7 @@ public class World{
 		move(pc, pc.getX() + 1, pc.getY() - 1);
 	    }
 	} else if (c == 'x' || c == 'X'){
-	    if(pc.getX() == sideLength - 1){
+	    if(pc.getX() == sideLength - 1&& level != 20){
 		level++;
 		generate();	
 		move(pc, 0, pc.getY());
@@ -288,11 +331,11 @@ public class World{
 		move(pc, pc.getX() + 1, pc.getY());
 	    }
 	} else if (c == 'c' || c == 'C'){
-	    if(pc.getY() == sideLength - 1){
+	    if(pc.getY() == sideLength - 1&& level != 20){
 		level++;
 		generate();
 		move(pc, pc.getX(), 0);
-	    } else if(pc.getX() == sideLength - 1){
+	    } else if(pc.getX() == sideLength - 1&& level != 20){
 		level++;
 		generate();	
 		move(pc, 0, pc.getY());
@@ -301,7 +344,7 @@ public class World{
 		move(pc, pc.getX() + 1, pc.getY() + 1);
 	    }
 	} else if(c == 'd' || c == 'D'){
-	    if(pc.getY() == sideLength - 1){
+	    if(pc.getY() == sideLength - 1 && level != 20){ 
 		level++;
 		generate();
 		move(pc, pc.getX(), 0);
@@ -309,11 +352,11 @@ public class World{
 		move(pc, pc.getX(), pc.getY() + 1);
 	    }
 	} else if (c == 'e' || c == 'E'){
-	    if(pc.getY() == sideLength - 1){
+	    if(pc.getY() == sideLength - 1&& level != 20){
 		level++;
 		generate();
 		move(pc, pc.getX(), 0);
-	    } else if(pc.getX() == 0){
+	    } else if(pc.getX() == 0&& level != 20){
 		level++;
 		generate();	
 		move(pc, sideLength - 1, pc.getY());
@@ -325,17 +368,23 @@ public class World{
 	    pc.inventoryHandler();
 	} else if (c == ' '){
 	    System.out.println("Please state a direction, using the key provided by Movement above.");
+	    char ph =  ' ';
 	    try{
-		pc.attack(this, input.nextLine().charAt(0));
+		c = input.nextLine().charAt(0);
 	    } catch (StringIndexOutOfBoundsException e){
-		pc.attack(this, 'w');
+		c =  'w';
 	    }
+	    attackDirection(c);
 	} else if (c == 's' || c == 'S'){
-	    pc.listSpells();
-	    try{
-		pc.cast(this, input.nextLine().charAt(0));
-	    } catch (StringIndexOutOfBoundsException e){
-		pc.cast(this, 'h');
+	    if(pc.getMana() > 0){
+		pc.listSpells();
+		try{
+		    pc.cast(this, input.nextLine().charAt(0));
+		} catch (StringIndexOutOfBoundsException e){
+		    pc.cast(this, 'h');
+		}
+	    } else {
+		System.out.println("You lack the power to peform spells right now.");
 	    }
 	} else if (c == 'o' || c == 'O'){
 	    pc.storeMoves();

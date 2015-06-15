@@ -6,7 +6,7 @@ public class World{
     private char[][] map;
     private int sideLength;
     private Player pc;
-    private Monster[] mobs = new Monster[0];
+    private Monster[] mobs;
     private int level;
     private Random rand = new Random();
     private String status = "";
@@ -32,10 +32,15 @@ public class World{
 	    generateBoss();
 	} else if(ps % 4 == 0){
 	    preset1();
+	    generateMobs();
 	} else if(ps % 4 == 1){
 	    preset2();
+	    generateMobs();
 	} else if(ps % 4 == 2){
 	    preset3();
+	    generateMobs();
+	} else if(ps % 4 == 3){
+	    generateMobs();
 	}
 	if(ps >= 0){
 	    generateChests(sideLength/3);
@@ -134,13 +139,20 @@ public class World{
 	map[e.getX()][e.getY()] = e.getSymbol();
     }
     public void generateMobs(){
-	int spawncap = 3;
-	String[] SlimeAtt = {"Pound", "Slap"};//temporary location
+	int spawncap = level * 3 / 2;
+	mobs = new Monster[spawncap];
 	while(spawncap != 0){
 	    int r = rand.nextInt(sideLength);
 	    int c = rand.nextInt(sideLength);
 	    if((map[r][c] != 'X') && (map[r][c] != 'C')){
-		Monster m = new Monster('M', 10, 0, "Slime", 1, 0, r, c, SlimeAtt);
+		Monster m = new Monster('?',1000*level,1000*level,"MissingNo",100*level,1000*level, r, c);
+		if(level % 3 == 0){
+		     m = new Monster('S', 15 * level, 0, "Shambling Skeleton", level, level / 2, r, c);
+		} else if(level % 3 == 1){
+		    m  = new Monster('D', 15 * level, 0, "Minor Demon", level * 3 / 2, 0, r, c);
+		} else if(level % 3 == 2){
+		    m = new Monster('P', 15 * level, 0, "Corrupted Priest", level /2, level, r, c);
+		}
 		summon(m);
 	    }
 	    spawncap--;
@@ -245,9 +257,11 @@ public class World{
 	}
 	for(int i = 0; i < mobs.length;i++){
 	    Monster m = mobs[i];
-	    if( m.getX() == xcor){
-		if(m.getY() == ycor){
-		    pc.attack(this,m);
+	    if(m != null){
+		if( m.getX() == xcor){
+		    if(m.getY() == ycor){
+			pc.attack(this,m);
+		    }
 		}
 	    }
 	}
@@ -278,89 +292,92 @@ public class World{
     }
     public void commandHandle(char c){
 	if(c == 'w' || c == 'W'){
-	    if(pc.getX() == 0&& level != 20){
+	    if(pc.getX() == 0){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, sideLength - 1, pc.getY());
-	    }
+		move(pc, sideLength - 1, pc.getY());}
+	    }  
 	    else {
 		move(pc, pc.getX() - 1, pc.getY());	
 	    }
 	} else if (c == 'q' || c == 'Q'){
-	    if(pc.getY() == 0&& level != 20){
+	    if(pc.getY() == 0){ if(level != 20){
 		level++;
 		generate();
-		move(pc, pc.getX(), sideLength -1);
-	    } else if(pc.getX() == 0&& level != 20){
+		move(pc, pc.getX(), sideLength -1);}
+	    } else if(pc.getX() == 0){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, sideLength - 1, pc.getY());
-	    }
+		move(pc, sideLength - 1, pc.getY());}
+	    }  
+
 	    else {
 		move(pc, pc.getX() - 1, pc.getY() - 1);		
 	    }
 	} else if (c == 'a' || c == 'A'){
-	    if(pc.getY() == 0&& level != 20){
+	    if(pc.getY() == 0){ if(level != 20){
 		level++;
 		generate();
-		move(pc, pc.getX(), sideLength -1);
-	    }
+		move(pc, pc.getX(), sideLength -1);}
+	    }  
+
 	    else {
 		move(pc, pc.getX(), pc.getY() - 1);		
 	    }
 	} else if (c == 'z' || c == 'Z'){
-	    if(pc.getY() == 0&& level != 20){
+	    if(pc.getY() == 0){ if(level != 20){
 		level++;
 		generate();
-		move(pc, pc.getX(), sideLength -1);
-	    } else if(pc.getX() == sideLength - 1&& level != 20){
+		move(pc, pc.getX(), sideLength -1);}
+	    } else if(pc.getX() == sideLength - 1){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, 0, pc.getY());
-	    }
+		move(pc, 0, pc.getY());}
+	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY() - 1);
 	    }
 	} else if (c == 'x' || c == 'X'){
-	    if(pc.getX() == sideLength - 1&& level != 20){
+	    if(pc.getX() == sideLength - 1){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, 0, pc.getY());
-	    }
+		move(pc, 0, pc.getY());}
+	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY());
 	    }
 	} else if (c == 'c' || c == 'C'){
-	    if(pc.getY() == sideLength - 1&& level != 20){
+	    if(pc.getY() == sideLength - 1){ if(level != 20){
 		level++;
 		generate();
-		move(pc, pc.getX(), 0);
-	    } else if(pc.getX() == sideLength - 1&& level != 20){
+		move(pc, pc.getX(), 0);}
+	    } else if(pc.getX() == sideLength - 1){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, 0, pc.getY());
-	    }
+		move(pc, 0, pc.getY());}
+	    } 
 	    else {
 		move(pc, pc.getX() + 1, pc.getY() + 1);
 	    }
 	} else if(c == 'd' || c == 'D'){
-	    if(pc.getY() == sideLength - 1 && level != 20){ 
+	    if(pc.getY() == sideLength - 1 ){ if(level != 20){ 
 		level++;
 		generate();
-		move(pc, pc.getX(), 0);
-	    } else {
+		move(pc, pc.getX(), 0);}
+	    }  else {
 		move(pc, pc.getX(), pc.getY() + 1);
 	    }
 	} else if (c == 'e' || c == 'E'){
-	    if(pc.getY() == sideLength - 1&& level != 20){
+	    if(pc.getY() == sideLength - 1){ if(level != 20){
 		level++;
 		generate();
-		move(pc, pc.getX(), 0);
-	    } else if(pc.getX() == 0&& level != 20){
+		move(pc, pc.getX(), 0);}
+	    } else if(pc.getX() == 0){ if(level != 20){
 		level++;
 		generate();	
-		move(pc, sideLength - 1, pc.getY());
+		move(pc, sideLength - 1, pc.getY());}
 	    }
+
 	    else {
 		move(pc, pc.getX() - 1, pc.getY() + 1);
 	    }		    
@@ -384,12 +401,19 @@ public class World{
 		    pc.cast(this, 'h');
 		}
 	    } else {
-		System.out.println("You lack the power to peform spells right now.");
+		status += "You lack the power to peform spells right now.";
 	    }
 	} else if (c == 'o' || c == 'O'){
 	    pc.storeMoves();
 	} else if (c == 'p' || c == 'P'){
 	    pc.releaseStoredMoves();
+	} else {
+	    status += "Invalid entry";
+	}
+	for(Monster m : mobs){
+	    if (m != null){
+		m.trackPlayer(pc, this);
+	    }
 	}
 	
     }

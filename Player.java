@@ -16,14 +16,14 @@ public class Player extends Entity{
 	spells[1] = new Spell("Basic Beam", 10, 'b', 25);
 	spells[2] = new Spell("Energy Burst", 5, 'e', 50);
     }
+    public Tool getWeapon(){
+	return weapon;
+    }
+    public void setWeapon(Tool w){
+	weapon = w;
+    }
     public String toString(){
 	return this.getName() + ":\nHealth: " + this.getHealth() + "/" + this.getMaxHealth() + "\nMana: " + this.getMana() + "/" + this.getMaxMana() + "\nAttack: " + this.getAttack() + "\nDefense: " + this.getDefense() + "\nWeapon: " + weapon;
-    }
-    public void setWait(boolean in){
-	waiting = in;
-    }
-    public boolean getWait(){
-	return waiting;
     }
     public void storeMoves(){
 	System.out.println("What action do you want to store?");
@@ -54,20 +54,57 @@ public class Player extends Entity{
 		c = 'w';
 	    }   
 	    storedActions.add(c);
-	} else if (c == 'i'){
-	    System.out.println("You can't preemptively access your inventory, sorry.");
+	} else if (c == 'i' || c == 'I' || c == 'o' || c == 'O' || c == 'P' || c == 'p'){
+	    System.out.println("You can't preemptively use special actions, sorry.");
 	    
 	}
     }
-    public void releaseStoredMoves(){
-	for(char c : storedActions){
+    public void releaseStoredMoves(World w){
+	while(storedActions.size() > 0){
+	    char c = storedActions.remove();
 	    if(c == 's' || c == 'S'){
-		
+		cast(w,storedActions.remove());
+	    } else if (c == ' '){
+		w.attackDirection(storedActions.remove());
+	    } else {
+		w.commandHandle(c);
 	    }
 	}
+	   
     }
     public void inventoryHandler(){
-
+	System.out.println("You have " + inventory[0] + " red potions, " + inventory[1] + " green potions, " + inventory[2] + " blue potions, " + inventory[3] + " purple potions. Which would you like to use? (r,g,b,p)");
+	char c = ' ';
+	while(c == ' '){
+	    try{
+		 c = in.nextLine().charAt(0);
+	    } catch(StringIndexOutOfBoundsException e){
+		System.out.println("could you at lease try to follow instructions");
+	    }
+	}
+	String ret = "";
+	switch (c){
+	    case 'r':
+		this.setHealth(this.getMaxHealth());
+		ret+= "You feel rejuvinated";
+		break;
+	    case 'g':
+		this.setMana(this.getMaxMana());
+		ret += "You feel the world come back into focus";
+		break;
+	    case 'b':
+		this.setMaxHealth(this.getMaxHealth()+50);
+		this.setHealth(this.getMaxHealth());
+		ret += "You feel better than you've ever felt";
+		break;
+	    case 'p':
+		this.setMaxMana(this.getMaxMana() + 50);
+		this.setMana(this.getMaxMana());
+		ret += "The world starts glowing with untapped power";
+		break;
+	    }
+	System.out.println(ret);
+	in.nextLine();
     }
     public void listSpells(){
 	String ret = "";

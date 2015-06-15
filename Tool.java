@@ -11,7 +11,10 @@ public class Tool{
     }
     public boolean getHoly(){
 	return holy;
-    }						
+    }		
+    public void makeHoly(){
+	holy = true;
+    }
     public int getDam(){
 	return dam;
     }

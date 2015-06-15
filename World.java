@@ -24,12 +24,21 @@ public class World{
     }
     public void generate(){ //creates map
 	generateBorders();
+	for(Monster m: mobs){
+	    if(m != null){
+		map[m.getX()][m.getY()]=' ';
+		m = null;
+	    }
+	}
 	int ps = rand.nextInt(20)-level;
 	if (sideLength < 11){
 	    preset3();
 	    generateChests(sideLength); 
 	} else if(ps < 0){
 	    generateBoss();
+	    mobs[0] = new Monster('T', 50*level, 0, "Boss: Terrifying Titan", 5*level, 5*level,sideLength/2,sideLength/2);
+	    summon(mobs[0]);
+	    status += "Boss: Terrifying Titan has Appeared";
 	} else if(ps % 4 == 0){
 	    preset1();
 	    generateMobs();
@@ -94,6 +103,7 @@ public class World{
 		} else if((r + c) % 2 == 0 && r % 2 == 0){
 		    map[r][c] = 'X';
 		}
+		 
 		
 	    }
 	}
@@ -159,6 +169,56 @@ public class World{
 	    spawncap--;
 	}
     }
+    public void chestHandler(){
+	int r = rand.nextInt(100);
+	if(r<30){
+	    status += "You remove a pendant from the chest. When you place it around your neck, you feel a burst of strength, and the pendant vanishes.";
+	    pc.setAttack(pc.getAttack() + 2);
+	} else if (r<60){
+	    status += "You remove a pair of bracers from the chest. When you put them on, they vanish and your skin gets harder.";
+	    pc.setDefense(pc.getDefense() + 2);
+	} else if (r<80){
+	    status += "You remove a book with a sword and sheild on the cover from the chest. It contains tecniques for improving your fighting skills.";
+	    pc.setAttack(pc.getAttack() + 1);
+	    pc.setDefense(pc.getDefense() + 1);
+	} else if(r < 90){
+	    if(r<82){
+		if(pc.getWeapon().getDam() < 30){
+		    status += "You remove a golden staff from the chest. It glows with incredibly power. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    pc.setWeapon(new Tool(35,false,"Golden Staff"));
+		} else if(pc.getWeapon().getDam() < 90){
+		    status += "You remove a giant staff that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful staff used by Merlin himself.";
+		    pc.setWeapon(new Tool(99, false, "Merlin's Staff"));
+		} else {
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		} 
+		    
+	    } else if(r < 84){
+		if(pc.getWeapon().getDam() < 30){
+		    status += "You remove an enchanted sword from the chest. It glows with magical energy. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    pc.setWeapon(new Tool(36,false," Enchanted Sword"));
+		} else if(pc.getWeapon().getDam() < 90){
+		    status += "You remove a giant sword that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful weapon used by Arthur himself.";
+		    pc.setWeapon(new Tool(99, false, "Excalibur"));
+		} else {
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		}
+	    } else if(r < 86){
+		if(pc.getWeapon().getDam() < 30){
+		    status += "You remove a powerful sledgehammer from the chest. It could shatter stone. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    pc.setWeapon(new Tool(34,false,"sledgehammer"));
+		} else if(pc.getWeapon().getDam() < 90){
+		    status += "You remove a hammer that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful Hammer used by Thor himself.";
+		    pc.setWeapon(new Tool(99, false, "Mjolnir"));
+		} else {
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		}
+	    } else {
+		status += "A light shines out of the chest, imbuing your weapon with special power.";
+		pc.getWeapon().makeHoly();
+	    }
+	}
+    }
     public void move(Entity e, int x, int y){
 	if(x >= 0 && x < sideLength && y >= 0 && y < sideLength){
 	    if(map[x][y] == ' '){
@@ -166,6 +226,9 @@ public class World{
 		e.setX(x);
 		e.setY(y);
 		map[x][y]=e.getSymbol();
+	    } else if(map[x][y] == 'C' && e instanceof Player){
+		chestHandler();
+		move(e,x,y);
 	    }
 	} 
 	
@@ -173,15 +236,17 @@ public class World{
     public void clocal(Spell s){
 	for(int i = 0; i < mobs.length; i++){
 	    Monster m = mobs[i];
-	    if(Math.abs(m.getX() - pc.getX()) <= 1 && Math.abs(m.getY() - pc.getY()) <= 1){
-		int dam = s.getDamage();
-		if(m.getHealth() < dam){
-		    map[m.getX()][m.getY()] = ' ';
-		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
-		}
-		else {
-		    m.setHealth(m.getHealth() - dam);
-		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+	    if(m != null){
+		if(Math.abs(m.getX() - pc.getX()) <= 1 && Math.abs(m.getY() - pc.getY()) <= 1){
+		    int dam = s.getDamage();
+		    if(m.getHealth() < dam){
+			map[m.getX()][m.getY()] = ' ';
+			status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		    }
+		    else {
+			m.setHealth(m.getHealth() - dam);
+			status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+		    }
 		}
 	    }
 	}
@@ -189,15 +254,17 @@ public class World{
     public void clong(Spell s){
 	for(int i = 0; i < mobs.length; i++){
 	    Monster m = mobs[i];
-	    if(Math.abs(m.getX() - m.getY()) == Math.abs(pc.getX() - pc.getY())){
-		int dam = s.getDamage();
-		if(m.getHealth() < dam){
-		    map[m.getX()][m.getY()] = ' ';
-		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
-		}
-		else {
-		    m.setHealth(m.getHealth() - dam);
-		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+	    if(m != null){
+		if(Math.abs(m.getX() - m.getY()) == Math.abs(pc.getX() - pc.getY())){
+		    int dam = s.getDamage();
+		    if(m.getHealth() < dam){
+			map[m.getX()][m.getY()] = ' ';
+			status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		    }
+		    else {
+			m.setHealth(m.getHealth() - dam);
+			status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+		    }
 		}
 	    }
 	}
@@ -205,16 +272,18 @@ public class World{
     public void ccomplete(Spell s){
 	for(int i = 0; i < mobs.length; i++){
 	    Monster m = mobs[i];
-	    if(rand.nextInt(3) < 2){
-		int dam = s.getDamage();
-		if(m.getHealth() < dam){
-		    map[m.getX()][m.getY()] = ' ';
-		    status += m.getName() + " has been killed by " + s.getName() + ".\n";
-		}
-		else {
-		    m.setHealth(m.getHealth() - dam);
-		    status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
-		    
+	    if(m != null){
+		if(rand.nextInt(3) < 2){
+		    int dam = s.getDamage();
+		    if(m.getHealth() < dam){
+			map[m.getX()][m.getY()] = ' ';
+			status += m.getName() + " has been killed by " + s.getName() + ".\n";
+		    }
+		    else {
+			m.setHealth(m.getHealth() - dam);
+			status += m.getName() + " was hit by " + s.getName() + " for " + dam + " damage.\n";
+			
+		    }
 		}
 	    }
 	}
@@ -417,7 +486,7 @@ public class World{
 	} else if (c == 'o' || c == 'O'){
 	    pc.storeMoves();
 	} else if (c == 'p' || c == 'P'){
-	    pc.releaseStoredMoves();
+	    pc.releaseStoredMoves(this);
 	} else {
 	    status += "Invalid entry";
 	}

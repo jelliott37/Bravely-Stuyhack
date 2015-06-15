@@ -28,6 +28,9 @@ public class Player extends Entity{
     public void setSpells(int i, Spell s){
 	spells[i]=s;
     }
+    public void addInv(int i){
+	inventory[i]++;
+    }
     public String toString(){
 	return this.getName() + ":\nHealth: " + this.getHealth() + "/" + this.getMaxHealth() + "\nMana: " + this.getMana() + "/" + this.getMaxMana() + "\nAttack: " + this.getAttack() + "\nDefense: " + this.getDefense() + "\nWeapon: " + weapon;
     }
@@ -91,22 +94,35 @@ public class Player extends Entity{
 	String ret = "";
 	switch (c){
 	    case 'r':
-		this.setHealth(this.getMaxHealth());
-		ret+= "You feel rejuvinated";
+		if(inventory[0]>0){
+		    this.setHealth(this.getMaxHealth());
+		    ret+= "You feel rejuvinated";
+		    inventory[0]--;
+		}
 		break;
+		
 	    case 'g':
-		this.setMana(this.getMaxMana());
-		ret += "You feel the world come back into focus";
+		if(inventory[1]>0){
+		    this.setMana(this.getMaxMana());
+		    ret += "You feel the world come back into focus";
+		    inventory[1]--;
+		}
 		break;
 	    case 'b':
-		this.setMaxHealth(this.getMaxHealth()+50);
-		this.setHealth(this.getMaxHealth());
-		ret += "You feel better than you've ever felt";
+		if(inventory[2]>0){
+		    this.setMaxHealth(this.getMaxHealth()+50);
+		    this.setHealth(this.getMaxHealth());
+		    ret += "You feel better than you've ever felt";
+		    inventory[2]--;
+		}
 		break;
 	    case 'p':
-		this.setMaxMana(this.getMaxMana() + 50);
-		this.setMana(this.getMaxMana());
-		ret += "The world starts glowing with untapped power";
+		if(inventory[3]>0){
+		    this.setMaxMana(this.getMaxMana() + 50);
+		    this.setMana(this.getMaxMana());
+		    ret += "The world starts glowing with untapped power";
+		    inventory[3]--;
+		}
 		break;
 	    }
 	System.out.println(ret);

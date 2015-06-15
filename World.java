@@ -171,86 +171,101 @@ public class World{
     }
     public void chestHandler(){
 	int r = rand.nextInt(100);
-	if(r<30){
-	    status += "You remove a pendant from the chest. When you place it around your neck, you feel a burst of strength, and the pendant vanishes.";
+	if(r<25){
+	    status += "You remove a pendant from the chest. When you place it around your neck, you feel a burst of strength, and the pendant vanishes."+"\n";
 	    pc.setAttack(pc.getAttack() + 2);
-	} else if (r<60){
-	    status += "You remove a pair of bracers from the chest. When you put them on, they vanish and your skin gets harder.";
+	} else if (r<50){
+	    status += "You remove a pair of bracers from the chest. When you put them on, they vanish and your skin gets harder."+"\n";
 	    pc.setDefense(pc.getDefense() + 2);
+	} else if (r < 64){
+	    if(r < 55){
+		status += "You remove a red potion from the box. I wonder what it does."+"\n";
+		pc.addInv(0);
+	    } else if(r < 60){
+	status += "You remove a green potion from the box. I wonder what it does."+"\n";
+	pc.addInv(1);
+	    } else if(r < 62){
+		status += "You remove a blue potion from the box. I wonder what it does".+"\n";
+	pc.addInv(2);
+	    } else if(r < 64){
+	status += "You remove a purple potion from the box. I wonder what it does."+"\n";
+	pc.addInv(3);
+	    }
+	
 	} else if (r<80){
-	    status += "You remove a book with a sword and sheild on the cover from the chest. It contains tecniques for improving your fighting skills.";
+	    status += "You remove a book with a sword and sheild on the cover from the chest. It contains tecniques for improving your fighting skills."+"\n";
 	    pc.setAttack(pc.getAttack() + 1);
 	    pc.setDefense(pc.getDefense() + 1);
 	} else if(r < 90){
 	    if(r<82){
 		if(pc.getWeapon().getDam() < 30){
-		    status += "You remove a golden staff from the chest. It glows with incredibly power. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    status += "You remove a golden staff from the chest. It glows with incredibly power. Your " + pc.getWeapon() + " vanishes suddenly."+"\n";
 		    pc.setWeapon(new Tool(35,false,"Golden Staff"));
 		} else if(pc.getWeapon().getDam() < 90){
-		    status += "You remove a giant staff that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful staff used by Merlin himself.";
+		    status += "You remove a giant staff that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful staff used by Merlin himself."+"\n";
 		    pc.setWeapon(new Tool(99, false, "Merlin's Staff"));
 		} else {
-		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now."+"\n";
 		} 
 		    
 	    } else if(r < 84){
 		if(pc.getWeapon().getDam() < 30){
-		    status += "You remove an enchanted sword from the chest. It glows with magical energy. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    status += "You remove an enchanted sword from the chest. It glows with magical energy. Your " + pc.getWeapon() + " vanishes suddenly."+"\n";
 		    pc.setWeapon(new Tool(36,false," Enchanted Sword"));
 		} else if(pc.getWeapon().getDam() < 90){
-		    status += "You remove a giant sword that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful weapon used by Arthur himself.";
+		    status += "You remove a giant sword that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful weapon used by Arthur himself."+"\n";
 		    pc.setWeapon(new Tool(99, false, "Excalibur"));
 		} else {
-		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now."+"\n";
 		}
 	    } else if(r < 86){
 		if(pc.getWeapon().getDam() < 30){
-		    status += "You remove a powerful sledgehammer from the chest. It could shatter stone. Your " + pc.getWeapon() + " vanishes suddenly.";
+		    status += "You remove a powerful sledgehammer from the chest. It could shatter stone. Your " + pc.getWeapon() + " vanishes suddenly."+"\n";
 		    pc.setWeapon(new Tool(34,false,"sledgehammer"));
 		} else if(pc.getWeapon().getDam() < 90){
-		    status += "You remove a hammer that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful Hammer used by Thor himself.";
+		    status += "You remove a hammer that has insurpassable power from the chest. Your previous weapon falls to the floor as you gaze upon the incredibly powerful Hammer used by Thor himself."+"\n";
 		    pc.setWeapon(new Tool(99, false, "Mjolnir"));
 		} else {
-		    status += "There are signs a weapon used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a weapon used to sit within the chest, but there is nothing now."+"\n";
 		}
 	    } else {
-		status += "A light shines out of the chest, imbuing your weapon with special power.";
+		status += "A light shines out of the chest, imbuing your weapon with special power."+"\n";
 		pc.getWeapon().makeHoly();
 	    }
 	} else {
 	    if(r<92){
 		if(pc.getSpells()[0].getDamage() < 30){
-		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Ice Strike";
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Ice Strike"+"\n";
 		    pc.setSpells(0,new Spell("Ice Strike", 75, 'i', 20));
 		} else 	if(pc.getSpells()[0].getDamage() < 100){
-		    status += "You remove a scroll from the chest. On it are written the teachings of a new spell technique, Life Drain";
+		    status += "You remove a scroll from the chest. On it are written the teachings of a new spell technique, Life Drain"+"\n";
 		    pc.setSpells(0,new Spell("Life Drain", 200, 'd', 50));
 		} else {
-		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a book used to sit within the chest, but there is nothing now."+"\n";
 		}
 	    } else if(r<94){
 		if(pc.getSpells()[1].getDamage() < 20){
-		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Beam Blast";
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Beam Blast"+"\n";
 		    pc.setSpells(1,new Spell("Beam Blast", 35, 'b', 90));	
 		} else if(pc.getSpells()[1].getDamage() < 50){
-		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Thunder Bolt";
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Thunder Bolt"+"\n";
 		    pc.setSpells(1,new Spell("Thunder Bolt", 150, 'b', 100));
 		} else {
-		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a book used to sit within the chest, but there is nothing now."+"\n";
 		}
 	    } else if(r<96){
 		if(pc.getSpells()[2].getDamage() < 10){
-		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Earthquake";
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Earthquake"+"\n";
 		    pc.setSpells(1,new Spell("Earthquake", 20, 'e', 90));	
 		} else if(pc.getSpells()[1].getDamage() < 50){
-		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Holy Nova";
+		    status += "You remove a scroll from the chest. On it are inscribed the teachings of a new spell technique, Holy Nova"+"\n";
 		    pc.setSpells(1,new Spell("Holy Nova", 200, 'n', 100));
 		} else {
-		    status += "There are signs a book used to sit within the chest, but there is nothing now.";
+		    status += "There are signs a book used to sit within the chest, but there is nothing now."+"\n";
 		}
 	    } else{
-		status += "Magical energy floats around the chest, but nothing sits inside.";
-	    }
+		status += "Magical energy floats around the chest, but nothing sits inside."+"\n";
+	    } 
 	    
 	}
     }
@@ -263,7 +278,8 @@ public class World{
 		map[x][y]=e.getSymbol();
 	    } else if(map[x][y] == 'C' && e instanceof Player){
 		chestHandler();
-		move(e,x,y);
+		map[x][y]=' ';
+		move(e, x, y);
 	    }
 	} 
 	
@@ -391,7 +407,7 @@ public class World{
 		    s = s + map[y][x];
 		s=s+"\n";
 	    }
-	return s+ "Level = " + level + "\n" + status + pc.toString();
+	return s+ "Level = " + level + "\n" + status  + pc.toString();
     }
     public void wait(int n){
 	try{
